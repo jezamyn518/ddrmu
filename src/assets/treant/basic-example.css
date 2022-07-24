@@ -1,0 +1,41 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { margin:0; padding:0; }
+table { border-collapse:collapse; border-spacing:0; }
+fieldset,.addMember { 
+    border:0; 
+    border-radius: 50%;
+}
+address,caption,cite,code,dfn,em,strong,th,var { font-style:normal; font-weight:normal; }
+caption,th { text-align:left; }
+h1,h2,h3,h4,h5,h6 { font-size:100%; font-weight:normal; }
+q:before,q:after { content:''; }
+abbr,acronym { border:0; }
+
+body { background: #fff; }
+/* optional Container STYLES */
+.chart { margin:5px; min-width: 80vw; height: 100vh;
+   
+}
+.Treant > .node {  }
+.Treant > p { font-weight: bold; font-size: 12px;}
+.node-name { font-weight: bold; display: block;}
+
+.nodeExample1 {
+    padding: 2px;
+    overflow: hidden;
+    font-size: 12px;
+    text-align: center;
+    min-width: 200px;
+    height: 95px;
+}
+.nodeExample1 img {
+    width: 50px;
+    margin-bottom: 5px;
+}
+
+.nodeExample1::-webkit-scrollbar {
+    display: none;
+}
+
+.chart::-webkit-scrollbar {
+    display: none;
+}

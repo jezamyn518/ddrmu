@@ -1,0 +1,209 @@
+<div class="wrapper">
+  {{> admin-sidenav salesActive=true}}
+  <div class="content-page">
+    <div class="content">
+      {{> admin-topnav}}
+
+      <!-- Start Content-->
+      <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+          <div class="col-12">
+            <div class="page-title-box">
+              <h4 class="page-title">{{toUpperCharAt credentials.type}}</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card widget-inline">
+              <div class="card-body p-0">
+                <div class="row g-0">
+                  <div class="col-sm-6 col-lg-3">
+                    <div class="card shadow-none m-0 border-start">
+                      <div class="card-body text-center">
+                        <i
+                          class="dripicons-user-group text-muted"
+                          style="font-size: 24px"
+                        ></i>
+                        <h3><span>{{members}}</span></h3>
+                        <p class="text-muted font-15 mb-0">Members</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-lg-3">
+                    <div class="card shadow-none m-0">
+                      <div class="card-body text-center">
+                        <i
+                          class="mdi mdi-cart-plus"
+                          style="font-size: 24px"
+                        ></i>
+                        <h3><span>{{totalCost}}</span></h3>
+                        <p class="text-muted font-15 mb-0">Total cost</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-lg-3">
+                    <div class="card shadow-none m-0 border-start">
+                      <div class="card-body text-center">
+                        <i
+                          class="mdi mdi-cart-plus"
+                          style="font-size: 24px"
+                        ></i>
+                        <h3><span id="pendingTask">{{totalPrice}}</span></h3>
+                        <p class="text-muted font-15 mb-0">Total collect</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-lg-3">
+                    <div class="card shadow-none m-0 border-start">
+                      <div class="card-body text-center">
+                        <i
+                          class="dripicons-graph-line text-muted"
+                          style="font-size: 24px"
+                        ></i>
+                        <h3>
+                          <span id="pendingTask"
+                            >{{totalNet totalPrice totalCost}}</span
+                          >
+                        </h3>
+                        <p class="text-muted font-15 mb-0">Net Income</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- end page title -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row mb-2">
+                <div class="col-sm-12">
+                  <button
+                    class="btn btn-danger mb-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#filterModal"
+                  >
+                    <i class="mdi mdi-plus-circle me-2"></i> Filter
+                  </button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table
+                  class="table table-centered table-striped dt-responsive nowrap w-100"
+                  id="data-datatable"
+                >
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Product name</th>
+                      <th>Product price</th>
+                      <th>Product cost</th>
+                      <th>Quantity</th>
+                      <th>Total</th>
+                      <th>Return item</th>
+                      <th>Date borrow</th>
+                      <th>Date return</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each sales}}
+                    <tr>
+                      <td>
+                        {{replaceName this.user_id.firstname
+                        sales.user_id.email}} {{this.user_id.lastname}}
+                      </td>
+                      <td>{{this.product_id.name}}</td>
+                      <td>{{this.product_id.price}}</td>
+                      <td>{{this.cost}}</td>
+                      <td>{{this.qty}}</td>
+                      <td>{{totalPriceQty this.qty this.product_id.price}}</td>
+                      <td>{{moment this.product_id.status 'MMMM DD YYYY'}}</td>
+                      <td>{{moment this.returnDate 'MMMM DD YYYY'}}</td>
+                      <td>{{moment this.dateReturn 'MMMM DD YYYY'}}</td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- end card-body-->
+          </div>
+          <!-- end card-->
+        </div>
+        <!-- end col -->
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- container -->
+  </div>
+</div>
+
+<!-- Right modal content -->
+<div
+  class="modal fade"
+  id="filterModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body pb-5">
+        <form action="/admin/search" method="POST">
+          <p>Select user</p>
+          <select name="user_id" class="form-control mb-2" id="usersOption">
+            <option value="">Select user</option>
+          </select>
+          <p>Date start</p>
+          <input name="startDate" type="date" class="form-control mb-2" />
+          <p>Date end</p>
+          <input name="endDate" type="date" class="form-control mb-4" />
+          <button class="btn btn-primary" style="float: right">
+            Filter sales
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //GET ALL CLIENT USERS
+    $.ajax({
+      type: "GET",
+      url: `/get/all-user`,
+      success: function (result) {
+        result.map((r) => {
+          $(`#usersOption`).append(
+            `<option value="${r._id}">${r.firstname ? r.firstname : r.email} ${
+              r.lastname ? r.lastname : ""
+            }</option>`
+          );
+        });
+        console.log(result);
+      },
+    }).fail(function (res) {
+      console.log(res);
+      errorSweetAlert();
+    });
+  });
+</script>
